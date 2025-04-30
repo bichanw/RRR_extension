@@ -9,8 +9,10 @@ if nargin < 4
 	C = res_wls'*res_wls/(size(X,1)-1);
 end
 
-tmp = C^(-1/2);
-[~,~,vrrr] = svd(tmp*Y'*X*wls*tmp);  % perform SVD of relevant matrix
-vrrr = (C^(1/2))*vrrr(:,1:rnk);      % get column vectors before accounting for covaraince
+% tmp = C^(-1/2);
+C_sqrt = C^(1/2);
+C_sqrt_inv = inv(C_sqrt);
+[~,~,vrrr] = svd(C_sqrt_inv*Y'*X*wls*C_sqrt_inv);  % perform SVD of relevant matrix
+vrrr = C_sqrt*vrrr(:,1:rnk);      % get column vectors before accounting for covaraince
 urrr = (X'*X)\(X'*Y*inv(C)*vrrr);  % get row vectors
 w0 = urrr*vrrr';  % construct full RRR estimate
