@@ -2,6 +2,26 @@ import numpy as np
 from scipy.linalg import sqrtm, inv
 
 def svd_RRR(X, Y, rnk, lambda_=0):
+    """
+        Perform Ridge Regularized Reduced Rank Regression (RRR) using SVD.
+        Parameters:
+            X : np.ndarray
+                Input data matrix (n_samples, n_input_neurons).
+            Y : np.ndarray
+                Output data matrix (n_samples, n_output_neurons).
+            rnk : int
+                Dimensionaility of communication
+            lambda_ : float
+                Regularization parameter (default is 0 for no regularization).
+        Returns:
+            w0 : np.ndarray
+                Estimate of the communication strength (n_input_neurons, n_output_neurons).
+            urrr : np.ndarray
+                Input axes (n_input_neurons, rnk).
+            vrrr : np.ndarray
+                Output axes, orthonormal (n_output_neurons, rnk).
+    """
+    # Check if X and Y are 2D arrays
     # Ridge regularization
     XX = X.T @ X + lambda_ * np.eye(X.shape[1])
 
@@ -26,6 +46,25 @@ def svd_RRR(X, Y, rnk, lambda_=0):
 
 
 def svd_RRR_noniso(X, Y, rnk, C=None):
+    """
+        Perform Reduced Rank Regression (RRR) using SVD with non-isotropic noise.
+        Parameters:
+            X : np.ndarray
+                Input data matrix (n_samples, n_input_neurons).
+            Y : np.ndarray
+                Output data matrix (n_samples, n_output_neurons).
+            rnk : int
+                Dimensionaility of communication
+            C : np.ndarray, optional
+                Covariance matrix of the noise (default is None, estimate from data).
+        Returns:
+            w0 : np.ndarray
+                Estimate of the communication strength (n_input_neurons, n_output_neurons).
+            urrr : np.ndarray
+                Input axes (n_input_neurons, rnk).
+            vrrr : np.ndarray
+                Output axes (n_output_neurons, rnk).
+    """
     # Least squares estimate
     wls = np.linalg.solve(X.T @ X, X.T @ Y)
 
