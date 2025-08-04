@@ -15,7 +15,6 @@ end
 
 
 vrrr = vrrr(:,1:rnk);      % get column vectors
-% urrr= (X'*X)\(X'*Y*vrrr);  % get row vectors
 urrr= wridge * vrrr;  % get row vectors
 w0 = urrr*vrrr';  % construct full RRR estimate
 vrrr = vrrr';
