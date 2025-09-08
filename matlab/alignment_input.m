@@ -1,10 +1,10 @@
-function [aa,p,aa_rand] = input_align(X, W , r, C)
+function [aa,p,aa_rand] = alignment_input(X, W , r, C)
 % calculate how much the communication weights W align with the
 % principal components of the input X
 % Input: 
 %   X: input matrix (stimuli) of size (n_samples, n_input_neurons)
 %   W: communication weights of size (n_input_neurons, n_communication_dims)
-%   r: rank of the communication weights (optional, default is rank(W))
+%   r: rank of the communication weights (optional, default is rank(W) estimated from W)
 % Output:
 %   aa: alignment index (0-1), where 1 is maximally aligned
 
@@ -34,7 +34,7 @@ if nargout > 1
     % generate null distribuition
 
     [nx,ny] = size(W);
-    if nargin < 3
+    if nargin < 3 || isempty(r)
         r = rank(W);
     end
 
@@ -47,7 +47,7 @@ if nargout > 1
     for ii = 1:nperm
         [U,~] = qr(randn(size(W)));
         W_rand = U * diag(Swvec) * U';
-        aa_rand(ii) = input_align(X, W_rand);
+        aa_rand(ii) = alignment_input(X, W_rand);
         upd(ii);
     end
 

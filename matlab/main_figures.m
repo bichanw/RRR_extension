@@ -1,6 +1,3 @@
-% code to generate figures
-clear all; close all; clc;
-addpath('other_funcs');
 
 
 % fig 6: output alignment
@@ -30,7 +27,8 @@ addpath('other_funcs');
     
     
     % plot
-    [ax,r,c] = np(3,3);
+    close all;
+    r = 3; c = 3; ax = arrayfun(@(ii) subplot(r,c,ii,'NextPlot','add'),1:(r*c));
     set(groot, 'defaultLineMarkerSize', 3);
     for ii = 1:3
         switch ii
@@ -102,21 +100,14 @@ addpath('other_funcs');
         axes(ax(sub2ind([c r],1,ii)));
         plot(1:nd,spopvec_nrm,'o-',1:nd,scomvec/sum(spopvec),'o-');
         set(gca,'ylim',[0 spopvec_nrm(1)*1.1],'XLim',[0.5 ny+0.5]);
-        % title('fraction of variance in PC dimensions');
-        % legend('PC','communication','location', 'north');
 
         axes(ax(sub2ind([c r],2,ii)));
         plot(1:nd,spopcum_nrm,'-o',1:nd,scomcum_nrm,'o-'); box off;
-        % plot([1 nd],muspop*[1 1], '--','color',clrs(1,:));
-        % plot([1 nd], muscom*[1 1],'--','color',clrs(2,:));
         set(gca,'ylim',[0 1],'YTick',[0 1],'XLim',[.5 ny+0.5]);
-        % legend('PCs', 'communiction', 'mean(PCs)', 'mean(communication)',...
-        %     'location','southeast');
 
         axes(ax(sub2ind([c r],3,ii)));
         plot(commfrac,a_out,'k*'); 
         plot([0 1],[0 0],'k--', [0.5 0.5], [-1 1], 'k--','linewidth',1); 
-        %plot(outputalignment*[1 1],[0 1],'k', outputalignment,1,'k*');
         set(gca,'ylim',[-1.01 1.01], 'xtick',-1:.5:1,'xlim',[0 1],'YTick',[-1 0 1]);
         axis square;
         
@@ -183,7 +174,7 @@ addpath('other_funcs');
         var_comm = diag(Upca'*W*W'*Upca); % sum(Sw' * ((Uw'*Upca).^2) .* Spcavec',1)
 
 
-        a_in = input_align(X, W , r, cov_X);
+        a_in = alignment_input(X, W , r, cov_X);
 
         % --------  Make plot --------------
         axes(ax(ii));
@@ -211,7 +202,7 @@ addpath('other_funcs');
     return
 
 
-    % fig 2b: advantage of non-isotropic noise
+% fig 2b: advantage of non-isotropic noise
     % define error function
     err_fun = @(A, B) mean((A - B).^2, 'all') / mean(B.^2, 'all');
 

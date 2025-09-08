@@ -1,9 +1,11 @@
-function outputalignmentidx = output_align(X,Y,W,if_plot)
-% OUTPUT_ALIGN computes the alignment index of the output population
-%   outputalignmentidx = output_align(X,Y,W)
-%   X: input population (n_samples x n_input_features)
-%   Y: output population (n_samples x n_output_features)
-%   W: communication weights (n_input_features x n_output_features)
+function outputalignmentidx = alignment_output(X,Y,W,if_plot)
+% alignment_output computes the alignment index of the output population
+% outputalignmentidx = alignment_output(X,Y,W)
+% Input:
+%       X: input population (n_samples x n_input_features)
+%       Y: output population (n_samples x n_output_features)
+%       W: communication weights (n_input_features x n_output_features)
+%       if_plot: whether to plot the variance profile
 % Output:
 %   outputalignmentidx: raw alignment index 
 
@@ -104,5 +106,5 @@ axis square;
 ylabel('output alignment index');
 xlabel('communication fraction');
 box off;
-ef;
+exportgraphics(gcf,'output_alignment.pdf','ContentType','vector');
 end
