@@ -144,14 +144,15 @@
     ny = 15;
     r = 3; % rank of the communication subspace
 
-    % generate input with fixed eigenvalues
+   
+    % create exponential decay eigenvalues
     basis = orth(randn(nx,nx)); % random orthogonal basis
-    basis = basis ./ vecnorm(basis);
     n_samples = 20;
     tmp = linspace(0, 1, n_samples);  % normalized time from 0 to 1
     start_val = 2;
     end_val = 1;
     s = end_val + (start_val - end_val) * exp(-3 * tmp);  % adjust -3 for steepness
+    % generate input with fixed eigenvalues
     cov_X = basis * diag(s) * basis'; % covariance of input
     X = mvnrnd(zeros(nx,1),cov_X,T); % generate data
 

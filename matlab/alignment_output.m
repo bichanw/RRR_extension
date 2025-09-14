@@ -1,4 +1,4 @@
-function outputalignmentidx = alignment_output(X,Y,W,if_plot)
+function [outputalignmentidx, commfrac] = alignment_output(X,Y,W,if_plot)
 % alignment_output computes the alignment index of the output population
 % outputalignmentidx = alignment_output(X,Y,W)
 % Input:
@@ -25,7 +25,7 @@ spopcum_nrm = cumsum(spopvec_nrm);
 % Project communication covariance onto PCs
 cov_predicted = cov(X*W);
 scomvec = diag(upop'*cov_predicted*upop);
-scomvec_nrm = scomvec./sum(scomvec);
+% scomvec_nrm = scomvec./sum(scomvec);
 scomcum_nrm = cumsum(scomvec)/sum(scomvec);
 
 % compute alignment index
